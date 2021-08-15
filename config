@@ -8,3 +8,4 @@ IMAGE_FORMAT="webp"
 # -2 to calculate dimension while preserving aspect ratio.
 IMAGE_WIDTH="-2"
 IMAGE_HEIGHT="300"
+GRABDIR="$HOME/Documents"

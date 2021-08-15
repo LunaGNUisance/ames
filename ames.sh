@@ -25,6 +25,7 @@ IMAGE_FORMAT="webp"
 # -2 to calculate dimension while preserving aspect ratio.
 IMAGE_WIDTH="-2"
 IMAGE_HEIGHT="300"
+GRABDIR="$HOME/Downloads"
 
 CONFIG_FILE_PATH="$HOME/.config/ames/config"
 
@@ -274,18 +275,28 @@ record() {
     fi
 }
 
+grab_latest_audio() {
+        local audioFile=$GRABDIR
+        audioFile+="$(ls -Art "$GRABDIR" | egrep '\.ogg|\.opus|\.mp3$' | tail -n 1)"
+        store_file "${audioFile}"
+        update_sound "$(basename -- "$audioFile")"
+        notify-send --hint=int:transient:1 -t 500 -u normal "Audio file added"
+}
+
+
 if [[ -z ${1-} ]]; then
     usage
     exit 1
 fi
 
-while getopts 'hrsaw' flag; do
+while getopts 'hrsawg' flag; do
     case "${flag}" in
         h) usage ;;
         r) record ;;
         s) screenshot ;;
         a) again ;;
         w) screenshot_window ;;
+	g) grab_latest_audio ;;
         *) ;;
     esac
 done
